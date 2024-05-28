@@ -1,10 +1,21 @@
+using LibraryManagement.Application.Commands.Books;
+using LibraryManagement.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.SwaggerUI;
+
+const string Context = "LibraryDb";
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+var connectionString = builder.Configuration.GetConnectionString(Context);
+builder.Services.AddDbContext<LibraryDbContext>(s => s.UseSqlServer(connectionString));
+
+builder.Services.AddMediatR(opt => opt.RegisterServicesFromAssemblyContaining(typeof(CreateBookCommandHandler)));
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(s =>
