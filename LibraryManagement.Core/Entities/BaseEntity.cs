@@ -3,6 +3,7 @@
     public abstract class BaseEntity
     {
         public Guid Id { get; private set; } = Guid.NewGuid();
-        public bool IsDeleted { get; private set; }
+        public bool IsDeleted { get; protected set; }
+        public void Inactivate() => IsDeleted = true;
     }
 }

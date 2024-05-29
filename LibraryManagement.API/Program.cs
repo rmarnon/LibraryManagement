@@ -1,4 +1,9 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using LibraryManagement.API.Extensions;
+using LibraryManagement.API.Filters;
 using LibraryManagement.Application.Commands.Books;
+using LibraryManagement.Application.Validators;
 using LibraryManagement.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -8,11 +13,15 @@ const string Context = "LibraryDb";
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-builder.Services.AddControllers();
+builder.Services.AddApiIoC();
+builder.Services.AddControllers(opt => opt.Filters.Add(typeof(ValidationFilter)));
 
 var connectionString = builder.Configuration.GetConnectionString(Context);
 builder.Services.AddDbContext<LibraryDbContext>(s => s.UseSqlServer(connectionString));
+
+builder.Services.AddValidatorsFromAssemblyContaining<CreateUserCommandValidator>()
+    .AddFluentValidationAutoValidation()
+    .AddFluentValidationClientsideAdapters();
 
 builder.Services.AddMediatR(opt => opt.RegisterServicesFromAssemblyContaining(typeof(CreateBookCommandHandler)));
 
@@ -46,7 +55,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(s =>
     {
         s.SwaggerEndpoint("/swagger/v1/swagger.json", "Library Management - API");
-        s.DocExpansion(DocExpansion.None);
+        s.DocExpansion(DocExpansion.List);
     });
 }
 

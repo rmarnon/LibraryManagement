@@ -2,9 +2,11 @@
 
 namespace LibraryManagement.Application.Commands.Users
 {
-    public class CreateUserCommand : IRequest<Unit>
+    public class UpdateUserCommand : IRequest<Unit>
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
