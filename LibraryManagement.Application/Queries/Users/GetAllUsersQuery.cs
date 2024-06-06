@@ -3,7 +3,7 @@ using MediatR;
 
 namespace LibraryManagement.Application.Queries.Users
 {
-    public class GetAllUsersQuery : IRequest<List<UserViewModel>>
+    public record GetAllUsersQuery : IRequest<List<UserViewModel>>
     {
         public string Query { get; private set; }
 
