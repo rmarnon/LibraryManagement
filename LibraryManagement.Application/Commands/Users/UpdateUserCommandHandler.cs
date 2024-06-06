@@ -15,7 +15,7 @@ namespace LibraryManagement.Application.Commands.Users
 
             if (user != null)
             {
-                user.Update(request.Name, request.Email, request.IsDeleted);
+                user.Update(request.Name, request.Email);
                 await _userRepository.UpdateAsync(user);
             }
 

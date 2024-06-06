@@ -15,5 +15,13 @@
             Isbn = isbn.Trim();
             PublicationYear = publicationYear;
         }
+
+        public void Update(string title, string author, string isbn, int publicationYear)
+        {
+            Title = title.Trim();
+            Author = author.Trim();
+            Isbn = isbn.Trim();
+            PublicationYear = publicationYear;
+        }
     }
 }

@@ -12,11 +12,10 @@
             Email = email.Trim();
         }
 
-        public void Update(string name, string email, bool isDeleted)
+        public void Update(string name, string email)
         {
             Name = name.Trim();
             Email = email.Trim();
-            IsDeleted = isDeleted;
         }
     }
 }

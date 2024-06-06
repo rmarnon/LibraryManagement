@@ -1,7 +1,9 @@
 ﻿using LibraryManagement.Application.Commands.Books;
+using LibraryManagement.Application.Commands.Users;
 using LibraryManagement.Application.Queries.Books;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace LibraryManagement.API.Controllers
 {
@@ -20,6 +22,13 @@ namespace LibraryManagement.API.Controllers
             return Created(string.Empty, command);
         }
 
+        [HttpPut]
+        public async Task<IActionResult> UpdateBook([FromBody] UpdateBookCommand command)
+        {
+            await _mediator.Send(command);
+            return NoContent();
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAllBooks([FromQuery] string? query)
         {
@@ -36,6 +45,14 @@ namespace LibraryManagement.API.Controllers
             return book is null
                 ? NotFound() 
                 : Ok(book);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteBook([FromRoute][Required] Guid id)
+        {
+            var command = new DeleteBookCommand(id);
+            await _mediator.Send(command);
+            return NoContent();
         }
     }
 }
