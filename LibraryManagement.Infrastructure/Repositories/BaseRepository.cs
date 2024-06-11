@@ -25,17 +25,17 @@ namespace LibraryManagement.Infrastructure.Repositories
 
         public async Task<bool> ExistsAsync(Guid id)
         {
-            return await Query().AnyAsync(x => x.Id == id);
+            return await Query().AnyAsync(x => x.Id == id && !x.IsDeleted);
         }
 
         public async Task<List<T>> GetAllAsync()
         {
-            return await Query().ToListAsync();
+            return await Query().Where(x => !x.IsDeleted).ToListAsync();
         }
 
         public async Task<T> GetOneAsync(Guid id)
         {
-            return await Query().FirstOrDefaultAsync(x => x.Id == id);
+            return await Query().FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
         }
 
         public async Task InactivateAsync(Guid id)

@@ -10,6 +10,7 @@ namespace LibraryManagement.API.Extensions
             services.AddScoped(typeof(IGenericRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IBookRepository, BookRepository>();
+            services.AddTransient<ILoanRepository, LoanRepository>();
 
             return services;
         }

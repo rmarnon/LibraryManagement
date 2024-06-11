@@ -6,5 +6,11 @@
         public Book Book { get; private set; }
         public Guid LoanId { get; private set; }
         public Loan Loan { get; private set; }
+
+        public LoanBook(Guid bookId, Guid loanId)
+        {
+            BookId = bookId;
+            LoanId = loanId;
+        }
     }
 }

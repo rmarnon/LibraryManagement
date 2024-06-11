@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
+using LibraryManagement.Application.Commands.Loans;
 
-namespace LibraryManagement.Application.Commands.Loans
+namespace LibraryManagement.Application.Validators
 {
     public class CreateLoanCommandValidator : AbstractValidator<CreateLoanCommand>
     {
@@ -22,7 +23,11 @@ namespace LibraryManagement.Application.Commands.Loans
         {
             RuleFor(x => x.LoanDate)
                 .NotEmpty()
-                .WithMessage("loan date is required!");            
+                .WithMessage("loan date is required!");
+
+            RuleFor(x => x.LoanDate)
+                .LessThanOrEqualTo(DateTime.UtcNow)
+                .WithMessage("Loan date should not be a future date");
         }
 
         private void ValidateUser()

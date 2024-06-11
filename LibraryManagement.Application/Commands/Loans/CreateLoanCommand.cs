@@ -2,7 +2,7 @@
 
 namespace LibraryManagement.Application.Commands.Loans
 {
-    public class CreateLoanCommand : IRequest
+    public class CreateLoanCommand : IRequest<Unit>
     {
         public Guid UserId { get; set; }
         public DateTime LoanDate { get; set; }
