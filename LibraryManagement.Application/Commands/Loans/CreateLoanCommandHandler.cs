@@ -19,20 +19,25 @@ namespace LibraryManagement.Application.Commands.Loans
 
         public async Task<Unit> Handle(CreateLoanCommand request, CancellationToken cancellationToken)
         {
+            var userLoan = await _loanRepository.ExistsLoanAsync(request.UserId);
             var userExist = await _userRepository.ExistsAsync(request.UserId);
-            var books = await _bookRepository.GetAllAsync();
-            var bookIds = books.Select(x => x.Id);
-            var bookExists = request.BookIds.All(id => bookIds.Contains(id));
 
-            if (userExist && bookExists)
+            if (userExist && !userLoan)
             {
-                var loan = new Loan(request.LoanDate, request.UserId);
-                foreach (var bookId in request.BookIds)
-                {
-                    loan.BorrowedBooks.Add(new(bookId, loan.Id));
-                }
+                var books = await _bookRepository.GetAllAsync();
+                var bookIds = books.Select(x => x.Id);
+                var bookExists = request.BookIds.All(id => bookIds.Contains(id));
 
-                await _loanRepository.AddAsync(loan);
+                if (bookExists)
+                {
+                    var loan = new Loan(request.LoanDate, request.UserId);
+                    foreach (var bookId in request.BookIds)
+                    {
+                        loan.BorrowedBooks.Add(new(bookId, loan.Id));
+                    }
+
+                    await _loanRepository.AddAsync(loan);
+                }
             }
 
             return Unit.Value;

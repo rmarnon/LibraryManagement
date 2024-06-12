@@ -18,5 +18,12 @@ namespace LibraryManagement.API.Controllers
             await _mediator.Send(command);
             return Created(string.Empty, command);
         }
+
+        [HttpPost("return")]
+        public async Task<IActionResult> ReturnLoan([FromBody] ReturnLoanCommand command)
+        {
+            await _mediator.Send(command);
+            return Created(string.Empty, command);
+        }
     }
 }

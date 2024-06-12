@@ -17,6 +17,10 @@ namespace LibraryManagement.Application.Validators
             RuleFor(x => x.BookIds)
                 .NotEmpty()
                 .WithMessage("There must be at least one book to loan");
+
+            RuleFor(x => x.BookIds)
+                .Must(x => x.Count <= 3)
+                .WithMessage("A maximum of 3 books are allowed per loan");
         }
 
         private void ValidateLoanDate()
