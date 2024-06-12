@@ -12,10 +12,10 @@ namespace LibraryManagement.Application.Queries.Users
 
         public async Task<UserViewModel> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.GetByIdIncludingAsync(request.Id, x => x.Loans);
+            var user = await _userRepository.GetOneAsync(request.Id);
 
             if (user is null) return null;
-            return new(user.Name, user.Email, user.Loans.Count);
+            return new(user.Name, user.Email);
         }
     }
 }

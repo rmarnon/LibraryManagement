@@ -13,7 +13,25 @@ namespace LibraryManagement.Infrastructure.Repositories
 
         public async Task<bool> CheckEmailExsistsAsync(string email)
         {
-            return await Query().AnyAsync(x => x.Email == email);
+            return await Query()
+                .Where(x => !x.IsDeleted)
+                .AnyAsync(x => x.Email == email);
+        }
+
+        public async Task<List<User>> GetAllAsync()
+        {
+            return await Query()
+                .Include(x => x.Loans).ThenInclude(y => y.BorrowedBooks)
+                .Where(x => !x.IsDeleted)
+                .ToListAsync();
+        }
+
+        public async Task<User> GetOneAsync(Guid id)
+        {
+            return await Query()
+                .Include(x => x.Loans).ThenInclude(y => y.BorrowedBooks)
+                .Where(x => !x.IsDeleted)
+                .SingleOrDefaultAsync(x => x.Id == id);
         }
     }
 }

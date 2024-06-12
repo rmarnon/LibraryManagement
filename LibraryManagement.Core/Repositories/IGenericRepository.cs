@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace LibraryManagement.Core.Repositories
+﻿namespace LibraryManagement.Core.Repositories
 {
     public interface IGenericRepository<T> where T : class
     {
@@ -10,7 +8,5 @@ namespace LibraryManagement.Core.Repositories
         Task<T> GetOneAsync(Guid id);
         Task<bool> ExistsAsync(Guid id);
         Task InactivateAsync(Guid id);
-        Task<IQueryable<T>> GetAllIncluding(params Expression<Func<T, object>>[] includeProperties);
-        Task<T> GetByIdIncludingAsync(Guid id, params Expression<Func<T, object>>[] includeProperties);
     }
 }

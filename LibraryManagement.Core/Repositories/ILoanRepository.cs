@@ -4,7 +4,8 @@ namespace LibraryManagement.Core.Repositories
 {
     public interface ILoanRepository : IGenericRepository<Loan>
     {
-        Task<Loan> GetLoanAsync(Guid userId);
+        Task<Loan> GetLoanByUserIdAsync(Guid userId);
         Task<bool> ExistsLoanAsync(Guid userId);
+        Task<Loan> GetLoanByIdAsync(Guid id);
     }
 }

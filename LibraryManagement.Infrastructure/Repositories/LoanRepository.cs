@@ -10,7 +10,7 @@ namespace LibraryManagement.Infrastructure.Repositories
         private readonly LibraryDbContext _context;
         public LoanRepository(LibraryDbContext libraryDbContext) : base(libraryDbContext) => _context = libraryDbContext;
 
-        public async Task<Loan> GetLoanAsync(Guid userId)
+        public async Task<Loan> GetLoanByUserIdAsync(Guid userId)
         {
             return await Query()
                 .Include(x => x.BorrowedBooks)
@@ -20,7 +20,17 @@ namespace LibraryManagement.Infrastructure.Repositories
 
         public async Task<bool> ExistsLoanAsync(Guid userId)
         {
-            return await Query().AnyAsync(x => x.UserId == userId);
+            return await Query()
+                .Where(x => !x.IsDeleted)
+                .AnyAsync(x => x.UserId == userId);
+        }
+
+        public async Task<Loan> GetLoanByIdAsync(Guid id)
+        {
+            return await Query()
+                .Include(x => x.User)
+                .Include(x => x.BorrowedBooks).ThenInclude(y => y.Book)
+                .SingleOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
         }
     }
 }

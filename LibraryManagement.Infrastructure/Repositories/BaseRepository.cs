@@ -2,7 +2,6 @@
 using LibraryManagement.Core.Repositories;
 using LibraryManagement.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace LibraryManagement.Infrastructure.Repositories
 {
@@ -32,28 +31,6 @@ namespace LibraryManagement.Infrastructure.Repositories
         public async Task<List<T>> GetAllAsync()
         {
             return await Query().Where(x => !x.IsDeleted).ToListAsync();
-        }
-
-        public async Task<IQueryable<T>> GetAllIncluding(params Expression<Func<T, object>>[] includeProperties)
-        {
-            var query = Query();
-            foreach (var includeProperty in includeProperties)
-            {
-                query = query.Where(x => !x.IsDeleted).Include(includeProperty);
-            }
-
-            return query;
-        }
-
-        public async Task<T> GetByIdIncludingAsync(Guid id, params Expression<Func<T, object>>[] includeProperties)
-        {
-            var query = Query();
-            foreach (var includeProperty in includeProperties)
-            {
-                query = query.Include(includeProperty);
-            }
-
-            return await query.FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
         }
 
         public async Task<T> GetOneAsync(Guid id)

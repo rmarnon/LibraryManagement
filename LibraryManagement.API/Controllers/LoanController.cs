@@ -1,4 +1,6 @@
 ﻿using LibraryManagement.Application.Commands.Loans;
+using LibraryManagement.Application.Queries.Books;
+using LibraryManagement.Application.Queries.Loans;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,6 +26,16 @@ namespace LibraryManagement.API.Controllers
         {
             await _mediator.Send(command);
             return Created(string.Empty, command);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetLoanById([FromRoute] Guid id)
+        {
+            var query = new GetLoanQuery(id);
+            var loan = await _mediator.Send(query);
+            return loan is null
+                ? NotFound()
+                : Ok(loan);
         }
     }
 }

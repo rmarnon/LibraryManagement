@@ -12,8 +12,8 @@ namespace LibraryManagement.Application.Queries.Users
 
         public async Task<List<UserViewModel>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
         {
-            var users = await _userRepository.GetAllIncluding(x => x.Loans);
-            return users.Select(u => new UserViewModel(u.Name, u.Email, u.Loans.Count)).ToList();
+            var users = await _userRepository.GetAllAsync();
+            return users.Select(u => new UserViewModel(u.Name, u.Email)).ToList();
         }
     }
 }

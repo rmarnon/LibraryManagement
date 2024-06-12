@@ -11,7 +11,7 @@ namespace LibraryManagement.Application.Commands.Loans
 
         public async Task<Unit> Handle(ReturnLoanCommand request, CancellationToken cancellationToken)
         {
-            var loan = await _loanRepository.GetLoanAsync(request.UserId);
+            var loan = await _loanRepository.GetLoanByUserIdAsync(request.UserId);
             var bookIds = loan?.BorrowedBooks?.Select(x => x.BookId).ToList();
 
             if (bookIds != null && bookIds.All(id => request.BookIds.Contains(id)))
