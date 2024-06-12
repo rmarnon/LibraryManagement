@@ -16,8 +16,7 @@ namespace LibraryManagement.Application.Commands.Loans
 
             if (bookIds != null && bookIds.All(id => request.BookIds.Contains(id)))
             {
-                loan.Inactivate();
-                await _loanRepository.UpdateAsync(loan);
+                await _loanRepository.InactivateAsync(loan.Id);
             }
 
             return Unit.Value;
