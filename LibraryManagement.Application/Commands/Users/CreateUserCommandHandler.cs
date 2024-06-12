@@ -13,10 +13,10 @@ namespace LibraryManagement.Application.Commands.Users
         public async Task<Unit> Handle(CreateUserCommand command, CancellationToken cancellationToken)
         {
             var exist = await _userRepository.CheckEmailExsistsAsync(command.Email);
-            if (!exist) 
+            if (!exist)
             {
                 var user = new User(command.Name, command.Email);
-                await _userRepository.AddAsync(user);                
+                await _userRepository.AddAsync(user);
             }
 
             return Unit.Value;
