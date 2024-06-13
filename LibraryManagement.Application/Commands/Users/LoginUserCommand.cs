@@ -1,13 +1,11 @@
-﻿using LibraryManagement.Core.Enums;
+﻿using LibraryManagement.Application.ViewModels;
 using MediatR;
 
 namespace LibraryManagement.Application.Commands.Users
 {
-    public class CreateUserCommand : IRequest<Unit>
+    public class LoginUserCommand : IRequest<LoginUserViewModel>
     {
-        public string Name { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public Role Role { get; set; }
     }
 }

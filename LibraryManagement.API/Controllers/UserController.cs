@@ -14,6 +14,15 @@ namespace LibraryManagement.API.Controllers
 
         public UserController(IMediator mediator) => _mediator = mediator;
 
+        [HttpPut("login")]
+        public async Task<IActionResult> Login([FromBody] LoginUserCommand command)
+        {
+            var loginViewModel = await _mediator.Send(command);
+            return loginViewModel is null
+                ? BadRequest()
+                : Ok(loginViewModel);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand command)
         {

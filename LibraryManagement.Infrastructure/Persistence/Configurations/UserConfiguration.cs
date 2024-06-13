@@ -10,14 +10,25 @@ namespace LibraryManagement.Infrastructure.Persistence.Configurations
         {
             builder.ToTable(nameof(User));
 
-            builder.HasKey(x => x.Id);
+            builder.HasKey(x => x.Id);            
 
             builder.Property(x => x.Name)
                 .HasMaxLength(50)
                 .IsRequired();
 
+            builder.HasIndex(u => u.Email)
+                .IsUnique();
+
             builder.Property(x => x.Email)
                 .HasMaxLength(50)
+                .IsRequired();
+
+            builder.Property(x => x.Password)
+                .HasMaxLength(64)
+                .IsRequired();
+
+            builder.Property(x => x.Role)
+                .HasConversion<int>()
                 .IsRequired();
         }
     }

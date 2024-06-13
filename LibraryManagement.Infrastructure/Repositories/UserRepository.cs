@@ -33,5 +33,13 @@ namespace LibraryManagement.Infrastructure.Repositories
                 .Where(x => !x.IsDeleted)
                 .SingleOrDefaultAsync(x => x.Id == id);
         }
+
+        public async Task<User> GetUserByEmailAndPasswordHashAsync(string email, string passwordHash)
+        {
+            return await Query()
+                .SingleOrDefaultAsync(x => x.Email == email
+                    && x.Password == passwordHash
+                    && !x.IsDeleted);
+        }
     }
 }

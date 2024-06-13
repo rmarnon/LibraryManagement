@@ -24,6 +24,9 @@ namespace LibraryManagement.Infrastructure.Persistence.Configurations
                 .HasConversion<int>()
                 .IsRequired();
 
+            builder.HasIndex(x => x.Isbn)
+                .IsUnique();
+
             builder.Property(x => x.Isbn)
                 .HasMaxLength(13)
                 .IsRequired();

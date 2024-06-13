@@ -7,5 +7,6 @@ namespace LibraryManagement.Core.Repositories
         Task<bool> CheckEmailExsistsAsync(string email);
         Task<List<User>> GetAllAsync();
         Task<User> GetOneAsync(Guid id);
+        Task<User> GetUserByEmailAndPasswordHashAsync(string email, string passwordHash);
     }
 }
