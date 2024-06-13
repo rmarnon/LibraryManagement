@@ -12,19 +12,15 @@ namespace LibraryManagement.Application.Queries.Loans
 
         public async Task<LoanViewModel> Handle(GetLoanQuery request, CancellationToken cancellationToken)
         {
-            var loan = await _loanRepository.GetLoanByIdAsync(request.Id);
+            var loan = await _loanRepository.GetOneAsync(request.Id);
 
             if (loan is null) return null;
 
-            var books = loan.BorrowedBooks.Select(x => x.Book);
-
+            var books = loan.BorrowedBooks.Select(x => x.Book).ToList();
             var user = new UserViewModel(loan.User.Name, loan.User.Email);
-            var loanViewModel = new LoanViewModel(loan.LoanDate, loan.DevolutionDate, user, books.Count());
-
-            foreach (var book in books)
-            {
-                loanViewModel.Books.Add(new(book.Title, book.Author, book.Isbn, book.PublicationYear));
-            }
+            var loanViewModel = new LoanViewModel(loan.LoanDate, loan.DevolutionDate, user, books.Count);
+            var booksViewModel = books.Select(b => new BookViewModel(b.Title, b.Author, b.Isbn, b.PublicationYear));
+            loanViewModel.Books.AddRange(booksViewModel);
 
             return loanViewModel;
         }

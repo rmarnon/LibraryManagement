@@ -25,12 +25,21 @@ namespace LibraryManagement.Infrastructure.Repositories
                 .AnyAsync(x => x.UserId == userId);
         }
 
-        public async Task<Loan> GetLoanByIdAsync(Guid id)
+        public async Task<Loan> GetOneAsync(Guid id)
         {
             return await Query()
                 .Include(x => x.User)
                 .Include(x => x.BorrowedBooks).ThenInclude(y => y.Book)
                 .SingleOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
+        }
+
+        public async Task<List<Loan>> GetAllAsync()
+        {
+            return await Query()
+                .Include(x => x.User)
+                .Include(x => x.BorrowedBooks).ThenInclude(y => y.Book)
+                .Where(x => !x.IsDeleted)
+                .ToListAsync();
         }
     }
 }

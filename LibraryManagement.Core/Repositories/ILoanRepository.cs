@@ -6,6 +6,7 @@ namespace LibraryManagement.Core.Repositories
     {
         Task<Loan> GetLoanByUserIdAsync(Guid userId);
         Task<bool> ExistsLoanAsync(Guid userId);
-        Task<Loan> GetLoanByIdAsync(Guid id);
+        Task<Loan> GetOneAsync(Guid id);
+        Task<List<Loan>> GetAllAsync();
     }
 }

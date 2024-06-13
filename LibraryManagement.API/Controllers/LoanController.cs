@@ -1,5 +1,4 @@
 ﻿using LibraryManagement.Application.Commands.Loans;
-using LibraryManagement.Application.Queries.Books;
 using LibraryManagement.Application.Queries.Loans;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -36,6 +35,14 @@ namespace LibraryManagement.API.Controllers
             return loan is null
                 ? NotFound()
                 : Ok(loan);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllLoans([FromQuery] string? query)
+        {
+            var loanQuery = new GetAllLoansQuery(query);
+            var users = await _mediator.Send(loanQuery);
+            return Ok(users);
         }
     }
 }
