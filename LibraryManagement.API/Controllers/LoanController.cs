@@ -2,6 +2,7 @@
 using LibraryManagement.Application.Queries.Loans;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace LibraryManagement.API.Controllers
 {
@@ -25,6 +26,13 @@ namespace LibraryManagement.API.Controllers
         {
             await _mediator.Send(command);
             return Created(string.Empty, command);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateLoan([FromBody][Required] UpdateLoanCommand command)
+        {
+            await _mediator.Send(command);
+            return NoContent();
         }
 
         [HttpGet("{id}")]

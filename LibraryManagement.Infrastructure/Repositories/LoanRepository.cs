@@ -14,15 +14,12 @@ namespace LibraryManagement.Infrastructure.Repositories
         {
             return await Query()
                 .Include(x => x.BorrowedBooks)
-                .SingleOrDefaultAsync(x => x.UserId == userId
-                && !x.IsDeleted);
+                .SingleOrDefaultAsync(x => x.UserId == userId && !x.IsDeleted);
         }
 
         public async Task<bool> ExistsLoanAsync(Guid userId)
         {
-            return await Query()
-                .Where(x => !x.IsDeleted)
-                .AnyAsync(x => x.UserId == userId);
+            return await Query().AnyAsync(x => x.UserId == userId && !x.IsDeleted);
         }
 
         public async Task<Loan> GetOneAsync(Guid id)

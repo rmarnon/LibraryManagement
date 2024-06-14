@@ -3,25 +3,12 @@ using LibraryManagement.Application.Commands.Users;
 
 namespace LibraryManagement.Application.Validators
 {
-    public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
+    public class LoginUserCommandValidator : AbstractValidator<LoginUserCommand>
     {
-        public UpdateUserCommandValidator()
+        public LoginUserCommandValidator()
         {
-            ValidateName();
             ValidateEmail();
             ValidatePassword();
-        }
-
-        private void ValidateName()
-        {
-            RuleFor(x => x.Name)
-                .NotEmpty()
-                .WithMessage("Name must not to be null");
-
-            RuleFor(x => x.Name)
-                .Length(2, 50)
-                .When(x => !string.IsNullOrWhiteSpace(x.Name))
-                .WithMessage("Name must be between 2 and 50 characters");
         }
 
         private void ValidateEmail()

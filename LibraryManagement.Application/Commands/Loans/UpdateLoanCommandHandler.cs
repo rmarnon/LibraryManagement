@@ -4,30 +4,25 @@ using MediatR;
 
 namespace LibraryManagement.Application.Commands.Loans
 {
-    public class CreateLoanCommandHandler : IRequestHandler<CreateLoanCommand, Unit>
+    public class UpdateLoanCommandHandler : IRequestHandler<UpdateLoanCommand, Unit>
     {
         private readonly ILoanRepository _loanRepository;
-        private readonly IUserRepository _userRepository;
         private readonly IBookRepository _bookRepository;
 
-        public CreateLoanCommandHandler(ILoanRepository loanRepository, IUserRepository userRepository, IBookRepository bookRepository)
+        public UpdateLoanCommandHandler(ILoanRepository loanRepository, IBookRepository bookRepository)
         {
             _loanRepository = loanRepository;
-            _userRepository = userRepository;
             _bookRepository = bookRepository;
         }
 
-        public async Task<Unit> Handle(CreateLoanCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateLoanCommand request, CancellationToken cancellationToken)
         {
-            var userLoan = await _loanRepository.ExistsLoanAsync(request.UserId);
-            var userExist = await _userRepository.ExistsAsync(request.UserId);
-
-            if (userExist && !userLoan)
+            var loan = await _loanRepository.GetOneAsync(request.Id);
+            if (loan != null)
             {
                 var bookExists = await ValidateIfBooksExistsAsync(request.BookIds);
-
                 if (bookExists)
-                    await CreateNewLoanAsync(request);
+                    await UpdateLoanAsync(request, loan);
             }
 
             return Unit.Value;
@@ -40,14 +35,10 @@ namespace LibraryManagement.Application.Commands.Loans
             return bookIds.TrueForAll(id => dataBookIds.Contains(id));
         }
 
-        private async Task CreateNewLoanAsync(CreateLoanCommand request)
+        private async Task UpdateLoanAsync(UpdateLoanCommand request, Loan loan)
         {
-            var loan = new Loan(request.LoanDate, request.UserId);
-            foreach (var bookId in request.BookIds)
-            {
-                loan.BorrowedBooks.Add(new(bookId, loan.Id));
-            }
-
+            loan.Update(request.LoanDate, request.DevolutionDate, request.BookIds, loan.UserId);
+            await _loanRepository.InactivateAsync(request.Id);
             await _loanRepository.AddAsync(loan);
         }
     }

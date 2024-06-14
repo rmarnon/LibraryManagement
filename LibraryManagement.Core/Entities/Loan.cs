@@ -14,5 +14,18 @@
             LoanDate = loanDate;
             DevolutionDate = DateTime.Today.AddDays(7);
         }
+
+        public void Update(DateTime loanDate, DateTime devolutionDate, List<Guid> bookIds, Guid userId)
+        {
+            User = null;
+            Id = Guid.NewGuid();
+            LoanDate = loanDate;
+            DevolutionDate = devolutionDate;
+            BorrowedBooks.Clear();
+            foreach (var bookId in bookIds)
+            {
+                BorrowedBooks.Add(new(bookId, Id));
+            }
+        }
     }
 }
