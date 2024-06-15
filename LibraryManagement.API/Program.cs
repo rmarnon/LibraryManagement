@@ -27,10 +27,7 @@ builder.Services.AddMediatR(opt => opt.RegisterServicesFromAssemblyContaining(ty
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(s =>
-{
-    s.SwaggerDoc("v1", new() { Title = "Library Management", Version = "v1" });
-});
+builder.Services.AddSwaggerService(builder.Configuration);
 
 var app = builder.Build();
 
@@ -61,6 +58,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

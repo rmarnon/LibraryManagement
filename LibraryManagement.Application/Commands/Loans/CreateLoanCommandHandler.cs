@@ -19,7 +19,7 @@ namespace LibraryManagement.Application.Commands.Loans
 
         public async Task<Unit> Handle(CreateLoanCommand request, CancellationToken cancellationToken)
         {
-            var userLoan = await _loanRepository.ExistsLoanAsync(request.UserId);
+            var userLoan = await _loanRepository.ExistsLoanByUserIdAsync(request.UserId);
             var userExist = await _userRepository.ExistsAsync(request.UserId);
 
             if (userExist && !userLoan)

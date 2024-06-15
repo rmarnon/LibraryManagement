@@ -17,7 +17,7 @@ namespace LibraryManagement.Infrastructure.Repositories
                 .SingleOrDefaultAsync(x => x.UserId == userId && !x.IsDeleted);
         }
 
-        public async Task<bool> ExistsLoanAsync(Guid userId)
+        public async Task<bool> ExistsLoanByUserIdAsync(Guid userId)
         {
             return await Query().AnyAsync(x => x.UserId == userId && !x.IsDeleted);
         }

@@ -5,6 +5,11 @@
         /// <summary>
         /// 0: Admin Role of the System.
         /// </summary>
-        Admin
+        Admin,
+
+        /// <summary>
+        /// 1: Common User Role of the System.
+        /// </summary>
+        User
     }
 }
