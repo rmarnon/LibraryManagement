@@ -1,10 +1,11 @@
-﻿using LibraryManagement.Core.Interfaces;
+﻿using FluentResults;
+using LibraryManagement.Core.Interfaces;
 using LibraryManagement.Core.Repositories;
 using MediatR;
 
 namespace LibraryManagement.Application.Commands.Users
 {
-    public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Unit>
+    public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Result>
     {
         private readonly IUserRepository _userRepository;
         private readonly IAuthService _authService;
@@ -15,7 +16,7 @@ namespace LibraryManagement.Application.Commands.Users
             _authService = authService;
         }
 
-        public async Task<Unit> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetOneAsync(request.Id);
 
@@ -24,9 +25,10 @@ namespace LibraryManagement.Application.Commands.Users
                 var password = _authService.GenerateSha256Hash(request.Password);
                 user.Update(request.Name, request.Email, password, request.Role);
                 await _userRepository.UpdateAsync(user);
+                return Result.Ok();
             }
 
-            return Unit.Value;
+            return Result.Fail("User not found");
         }
     }
 }

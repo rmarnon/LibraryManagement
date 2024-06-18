@@ -1,9 +1,11 @@
-﻿using LibraryManagement.Core.Enums;
+﻿using FluentResults;
+using LibraryManagement.Application.ViewModels;
+using LibraryManagement.Core.Enums;
 using MediatR;
 
 namespace LibraryManagement.Application.Commands.Users
 {
-    public class CreateUserCommand : IRequest<Unit>
+    public class CreateUserCommand : IRequest<Result<UserViewModel>>
     {
         public string Name { get; set; }
         public string Email { get; set; }

@@ -21,26 +21,32 @@ namespace LibraryManagement.API.Controllers
         [HttpPut("login")]
         public async Task<IActionResult> Login([FromBody] LoginUserCommand command)
         {
-            var loginViewModel = await _mediator.Send(command);
-            return loginViewModel is null
-                ? BadRequest()
-                : Ok(loginViewModel);
+            var result = await _mediator.Send(command);
+            return result.IsSuccess
+                ? Ok(result.Value)
+                : BadRequest(result.Errors);
         }
 
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand command)
         {
-            await _mediator.Send(command);
-            return Created(string.Empty, command);
+            var result = await _mediator.Send(command);
+
+            return !result.IsSuccess
+                ? BadRequest(result.Errors)
+                : CreatedAtAction(nameof(CreateUser), result.Value);
         }
 
         [HttpPut]
         [Authorize(Roles = nameof(Role.Admin))]
         public async Task<IActionResult> UpdateUser([FromBody][Required] UpdateUserCommand command)
         {
-            await _mediator.Send(command);
-            return NoContent();
+            var result = await _mediator.Send(command);
+
+            return result.IsSuccess
+                ? NoContent()
+                : BadRequest(result.Errors);
         }
 
         [HttpGet("{id}")]
@@ -48,19 +54,21 @@ namespace LibraryManagement.API.Controllers
         public async Task<IActionResult> GetUserById([FromRoute][Required] Guid id)
         {
             var query = new GetUserQuery(id);
-            var user = await _mediator.Send(query);
-            return user is null
-                ? NotFound()
-                : Ok(user);
+            var result = await _mediator.Send(query);
+            return result.IsSuccess
+                ? Ok(result.Value)
+                : NotFound(result.Errors);
         }
 
         [HttpGet]
-        [Authorize(Roles = $"{nameof(Role.Admin)},{nameof(Role.User)}")]
+        [Authorize(Roles = nameof(Role.Admin))]
         public async Task<IActionResult> GetAllUsers([FromQuery] string? query)
         {
             var usersQuery = new GetAllUsersQuery(query);
-            var users = await _mediator.Send(usersQuery);
-            return Ok(users);
+            var result = await _mediator.Send(usersQuery);
+            return result.IsSuccess
+                ? Ok(result.Value)
+                : NotFound(result.Errors);
         }
 
         [HttpDelete("{id}")]

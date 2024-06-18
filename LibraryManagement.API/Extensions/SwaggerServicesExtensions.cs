@@ -9,9 +9,13 @@ namespace LibraryManagement.API.Extensions
     {
         public static IServiceCollection AddSwaggerService(this IServiceCollection services, ConfigurationManager configuration)
         {
+            const string title = "Library - Management";
+            const string version = "1.0.0";
+            const string description = "Library management service";
+
             services.AddSwaggerGen(s =>
             {
-                s.SwaggerDoc("v1", new() { Title = "Library Management", Version = "v1" });
+                s.SwaggerDoc("v1", new() { Title = title, Version = version, Description = description });
 
                 s.AddSecurityDefinition("Bearer", new()
                 {
