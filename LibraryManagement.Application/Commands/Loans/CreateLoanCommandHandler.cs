@@ -1,10 +1,12 @@
-﻿using LibraryManagement.Core.Entities;
+﻿using FluentResults;
+using LibraryManagement.Application.ViewModels;
+using LibraryManagement.Core.Entities;
 using LibraryManagement.Core.Repositories;
 using MediatR;
 
 namespace LibraryManagement.Application.Commands.Loans
 {
-    public class CreateLoanCommandHandler : IRequestHandler<CreateLoanCommand, Unit>
+    public class CreateLoanCommandHandler : IRequestHandler<CreateLoanCommand, Result<LoanViewModel>>
     {
         private readonly ILoanRepository _loanRepository;
         private readonly IUserRepository _userRepository;
@@ -17,7 +19,7 @@ namespace LibraryManagement.Application.Commands.Loans
             _bookRepository = bookRepository;
         }
 
-        public async Task<Unit> Handle(CreateLoanCommand request, CancellationToken cancellationToken)
+        public async Task<Result<LoanViewModel>> Handle(CreateLoanCommand request, CancellationToken cancellationToken)
         {
             var userLoan = await _loanRepository.ExistsLoanByUserIdAsync(request.UserId);
             var userExist = await _userRepository.ExistsAsync(request.UserId);
@@ -27,10 +29,13 @@ namespace LibraryManagement.Application.Commands.Loans
                 var bookExists = await ValidateIfBooksExistsAsync(request.BookIds);
 
                 if (bookExists)
+                {
                     await CreateNewLoanAsync(request);
+                    return Result.Ok();
+                }
             }
 
-            return Unit.Value;
+            return Result.Fail("User or loan can't be found");
         }
 
         private async Task<bool> ValidateIfBooksExistsAsync(List<Guid> bookIds)

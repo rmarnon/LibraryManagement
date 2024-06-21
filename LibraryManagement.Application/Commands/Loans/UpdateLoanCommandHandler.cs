@@ -1,10 +1,11 @@
-﻿using LibraryManagement.Core.Entities;
+﻿using FluentResults;
+using LibraryManagement.Core.Entities;
 using LibraryManagement.Core.Repositories;
 using MediatR;
 
 namespace LibraryManagement.Application.Commands.Loans
 {
-    public class UpdateLoanCommandHandler : IRequestHandler<UpdateLoanCommand, Unit>
+    public class UpdateLoanCommandHandler : IRequestHandler<UpdateLoanCommand, Result>
     {
         private readonly ILoanRepository _loanRepository;
         private readonly IBookRepository _bookRepository;
@@ -15,17 +16,21 @@ namespace LibraryManagement.Application.Commands.Loans
             _bookRepository = bookRepository;
         }
 
-        public async Task<Unit> Handle(UpdateLoanCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(UpdateLoanCommand request, CancellationToken cancellationToken)
         {
             var loan = await _loanRepository.GetOneAsync(request.Id);
             if (loan != null)
             {
                 var bookExists = await ValidateIfBooksExistsAsync(request.BookIds);
+
                 if (bookExists)
+                {
                     await UpdateLoanAsync(request, loan);
+                    return Result.Ok();
+                }
             }
 
-            return Unit.Value;
+            return Result.Fail("Laon can't be updated");
         }
 
         private async Task<bool> ValidateIfBooksExistsAsync(List<Guid> bookIds)

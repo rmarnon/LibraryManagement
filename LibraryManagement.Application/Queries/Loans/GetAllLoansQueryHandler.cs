@@ -1,18 +1,23 @@
-﻿using LibraryManagement.Application.ViewModels;
+﻿using FluentResults;
+using LibraryManagement.Application.ViewModels;
 using LibraryManagement.Core.Repositories;
 using MediatR;
 
 namespace LibraryManagement.Application.Queries.Loans
 {
-    public class GetAllLoanQueryHandler : IRequestHandler<GetAllLoansQuery, List<LoanViewModel>>
+    public class GetAllLoansQueryHandler : IRequestHandler<GetAllLoansQuery, Result<List<LoanViewModel>>>
     {
         private readonly ILoanRepository _loanRepository;
 
-        public GetAllLoanQueryHandler(ILoanRepository loanRepository) => _loanRepository = loanRepository;
+        public GetAllLoansQueryHandler(ILoanRepository loanRepository) => _loanRepository = loanRepository;
 
-        public async Task<List<LoanViewModel>> Handle(GetAllLoansQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<LoanViewModel>>> Handle(GetAllLoansQuery request, CancellationToken cancellationToken)
         {
             var loans = await _loanRepository.GetAllAsync();
+
+            if (loans is null) 
+                return Result.Fail<List<LoanViewModel>>("Empty loan list");
+
             var loanViewModels = new List<LoanViewModel>();
             LoanViewModel loanViewModel;
 
@@ -26,7 +31,7 @@ namespace LibraryManagement.Application.Queries.Loans
                 loanViewModels.Add(loanViewModel);
             }
 
-            return loanViewModels;
+            return Result.Ok(loanViewModels);
         }
     }
 }

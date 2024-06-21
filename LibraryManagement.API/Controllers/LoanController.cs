@@ -21,24 +21,30 @@ namespace LibraryManagement.API.Controllers
         [Authorize(Roles = nameof(Role.Admin))]
         public async Task<IActionResult> CreateLoan([FromBody] CreateLoanCommand command)
         {
-            await _mediator.Send(command);
-            return Created(string.Empty, command);
+            var result = await _mediator.Send(command);
+            return result.IsFailed
+                ? BadRequest(result.Errors)
+                : CreatedAtAction(nameof(CreateLoan), result.Value);
         }
 
         [HttpPost("return")]
         [Authorize(Roles = nameof(Role.Admin))]
         public async Task<IActionResult> ReturnLoan([FromBody] ReturnLoanCommand command)
         {
-            await _mediator.Send(command);
-            return Created(string.Empty, command);
+            var result = await _mediator.Send(command);
+            return result.IsSuccess
+                ? NoContent()
+                : BadRequest(result.Errors);
         }
 
         [HttpPut]
         [Authorize(Roles = nameof(Role.Admin))]
         public async Task<IActionResult> UpdateLoan([FromBody][Required] UpdateLoanCommand command)
         {
-            await _mediator.Send(command);
-            return NoContent();
+            var result = await _mediator.Send(command);
+            return result.IsSuccess
+                ? NoContent()
+                : BadRequest(result.Errors);
         }
 
         [HttpGet("{id}")]
@@ -46,10 +52,10 @@ namespace LibraryManagement.API.Controllers
         public async Task<IActionResult> GetLoanById([FromRoute] Guid id)
         {
             var query = new GetLoanQuery(id);
-            var loan = await _mediator.Send(query);
-            return loan is null
-                ? NotFound()
-                : Ok(loan);
+            var result = await _mediator.Send(query);
+            return result.IsSuccess
+                ? Ok(result.Value)
+                : NotFound(result.Errors);
         }
 
         [HttpGet]
@@ -57,8 +63,10 @@ namespace LibraryManagement.API.Controllers
         public async Task<IActionResult> GetAllLoans([FromQuery] string? query)
         {
             var loanQuery = new GetAllLoansQuery(query);
-            var users = await _mediator.Send(loanQuery);
-            return Ok(users);
+            var result = await _mediator.Send(loanQuery);
+            return result.IsSuccess
+                ? Ok(result.Value)
+                : NotFound(result.Errors);
         }
     }
 }

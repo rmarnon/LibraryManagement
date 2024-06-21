@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using FluentResults;
+using MediatR;
 
 namespace LibraryManagement.Application.Commands.Loans
 {
-    public class UpdateLoanCommand : IRequest<Unit>
+    public class UpdateLoanCommand : IRequest<Result>
     {
         public Guid Id { get; set; }
         public DateTime LoanDate { get; set; }
