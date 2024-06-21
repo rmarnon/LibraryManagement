@@ -41,12 +41,9 @@ namespace LibraryManagement.Infrastructure.Repositories
         public async Task InactivateAsync(Guid id)
         {
             var model = await DbSet.FindAsync(id);
-            if (model != null)
-            {
-                model.Inactivate();
-                DbSet.Update(model);
-                await Context.SaveChangesAsync();
-            }
+            model!.Inactivate();
+            DbSet.Update(model);
+            await Context.SaveChangesAsync();
         }
 
         public async Task<T> UpdateAsync(T model)

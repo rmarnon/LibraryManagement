@@ -33,7 +33,7 @@ namespace LibraryManagement.API.Controllers
         {
             var result = await _mediator.Send(command);
 
-            return !result.IsSuccess
+            return result.IsFailed
                 ? BadRequest(result.Errors)
                 : CreatedAtAction(nameof(CreateUser), result.Value);
         }
@@ -76,8 +76,10 @@ namespace LibraryManagement.API.Controllers
         public async Task<IActionResult> DeleteUser([FromRoute][Required] Guid id)
         {
             var command = new DeleteUserCommand(id);
-            await _mediator.Send(command);
-            return NoContent();
+            var result = await _mediator.Send(command);
+            return result.IsSuccess
+                ? NoContent()
+                : NotFound(result.Errors);
         }
     }
 }
