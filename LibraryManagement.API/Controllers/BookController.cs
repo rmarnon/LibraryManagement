@@ -21,16 +21,20 @@ namespace LibraryManagement.API.Controllers
         [Authorize(Roles = $"{nameof(Role.Admin)}")]
         public async Task<IActionResult> CreateBook([FromBody] CreateBookCommand command)
         {
-            await _mediator.Send(command);
-            return Created(string.Empty, command);
+            var result = await _mediator.Send(command);
+            return result.IsFailed
+                ? BadRequest(result.Errors)
+                : CreatedAtAction(nameof(CreateBook), result.Value);
         }
 
         [HttpPut]
         [Authorize(Roles = $"{nameof(Role.Admin)}")]
         public async Task<IActionResult> UpdateBook([FromBody] UpdateBookCommand command)
         {
-            await _mediator.Send(command);
-            return NoContent();
+            var result = await _mediator.Send(command);
+            return result.IsSuccess
+                ? NoContent()
+                : BadRequest(result.Errors);
         }
 
         [HttpGet]
@@ -38,8 +42,10 @@ namespace LibraryManagement.API.Controllers
         public async Task<IActionResult> GetAllBooks([FromQuery] string? query)
         {
             var booksQuery = new GetAllBooksQuery(query);
-            var books = await _mediator.Send(booksQuery);
-            return Ok(books);
+            var result = await _mediator.Send(booksQuery);
+            return result.IsSuccess
+                ? Ok(result.Value)
+                : NotFound(result.Errors);
         }
 
         [HttpGet("{id}")]
@@ -47,10 +53,10 @@ namespace LibraryManagement.API.Controllers
         public async Task<IActionResult> GetBookById([FromRoute] Guid id)
         {
             var query = new GetBookQuery(id);
-            var book = await _mediator.Send(query);
-            return book is null
-                ? NotFound()
-                : Ok(book);
+            var result = await _mediator.Send(query);
+            return result.IsSuccess
+                ? Ok(result.Value)
+                : NotFound(result.Errors);
         }
 
         [HttpDelete("{id}")]
@@ -58,8 +64,10 @@ namespace LibraryManagement.API.Controllers
         public async Task<IActionResult> DeleteBook([FromRoute][Required] Guid id)
         {
             var command = new DeleteBookCommand(id);
-            await _mediator.Send(command);
-            return NoContent();
+            var result = await _mediator.Send(command);
+            return result.IsSuccess
+                ? NoContent()
+                : NotFound(result.Errors);
         }
     }
 }

@@ -32,7 +32,6 @@ namespace LibraryManagement.API.Controllers
         public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand command)
         {
             var result = await _mediator.Send(command);
-
             return result.IsFailed
                 ? BadRequest(result.Errors)
                 : CreatedAtAction(nameof(CreateUser), result.Value);
@@ -43,7 +42,6 @@ namespace LibraryManagement.API.Controllers
         public async Task<IActionResult> UpdateUser([FromBody][Required] UpdateUserCommand command)
         {
             var result = await _mediator.Send(command);
-
             return result.IsSuccess
                 ? NoContent()
                 : BadRequest(result.Errors);

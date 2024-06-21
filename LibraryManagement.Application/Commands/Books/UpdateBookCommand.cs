@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using FluentResults;
+using MediatR;
 
 namespace LibraryManagement.Application.Commands.Books
 {
-    public class UpdateBookCommand : IRequest<Unit>
+    public class UpdateBookCommand : IRequest<Result>
     {
         public Guid Id { get; set; }
         public string Title { get; set; }

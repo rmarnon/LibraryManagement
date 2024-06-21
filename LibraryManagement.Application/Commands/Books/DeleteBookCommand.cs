@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using FluentResults;
+using MediatR;
 
 namespace LibraryManagement.Application.Commands.Books
 {
-    public class DeleteBookCommand : IRequest<Unit>
+    public class DeleteBookCommand : IRequest<Result>
     {
         public Guid Id { get; set; }
 

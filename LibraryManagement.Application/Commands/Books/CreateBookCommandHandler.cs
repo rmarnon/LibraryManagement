@@ -1,21 +1,23 @@
-﻿using LibraryManagement.Core.Entities;
+﻿using FluentResults;
+using LibraryManagement.Application.ViewModels;
+using LibraryManagement.Core.Entities;
 using LibraryManagement.Core.Repositories;
 using MediatR;
 
 namespace LibraryManagement.Application.Commands.Books
 {
-    public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, Unit>
+    public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, Result<BookViewModel>>
     {
         private readonly IBookRepository _bookRepository;
 
         public CreateBookCommandHandler(IBookRepository bookRepository) => _bookRepository = bookRepository;
 
-        public async Task<Unit> Handle(CreateBookCommand command, CancellationToken cancellationToken)
+        public async Task<Result<BookViewModel>> Handle(CreateBookCommand command, CancellationToken cancellationToken)
         {
             var book = new Book(command.Title, command.Author, command.Isbn, command.PublicationYear);
             await _bookRepository.AddAsync(book);
 
-            return Unit.Value;
+            return Result.Ok(new BookViewModel(book.Title, book.Author, book.Isbn, book.PublicationYear));
         }
     }
 }
