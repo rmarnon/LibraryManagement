@@ -16,7 +16,7 @@ namespace LibraryManagement.Application.Queries.Books
             var book = await _bookRepository.GetOneAsync(request.Id);
             if (book is null) return Result.Fail("Book not found");
 
-            return Result.Ok(new BookViewModel(book.Title, book.Author, book.Isbn, book.PublicationYear));
+            return Result.Ok(new BookViewModel(book.Title, book.Author, book.Isbn, (ushort)book.PublicationYear));
         }
     }
 }

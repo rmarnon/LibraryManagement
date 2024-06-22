@@ -17,7 +17,7 @@ namespace LibraryManagement.Application.Commands.Books
             var book = new Book(command.Title, command.Author, command.Isbn, command.PublicationYear);
             await _bookRepository.AddAsync(book);
 
-            return Result.Ok(new BookViewModel(book.Title, book.Author, book.Isbn, book.PublicationYear));
+            return Result.Ok(new BookViewModel(book.Title, book.Author, book.Isbn, (ushort)book.PublicationYear));
         }
     }
 }

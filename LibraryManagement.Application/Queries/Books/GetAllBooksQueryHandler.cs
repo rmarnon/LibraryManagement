@@ -17,7 +17,7 @@ namespace LibraryManagement.Application.Queries.Books
             if (books is null)
                 return Result.Fail<List<BookViewModel>>("Empty book list");
 
-            return Result.Ok(books.Select(b => new BookViewModel(b.Title, b.Author, b.Isbn, b.PublicationYear)).ToList());
+            return Result.Ok(books.Select(b => new BookViewModel(b.Title, b.Author, b.Isbn, (ushort)b.PublicationYear)).ToList());
         }
     }
 }

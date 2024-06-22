@@ -24,7 +24,7 @@ namespace LibraryManagement.Application.Queries.Loans
             foreach (var loan in loans)
             {
                 var books = loan.BorrowedBooks.Select(x => x.Book).ToList();
-                var booksViewModel = books.Select(b => new BookViewModel(b.Title, b.Author, b.Isbn, b.PublicationYear));
+                var booksViewModel = books.Select(b => new BookViewModel(b.Title, b.Author, b.Isbn, (ushort)b.PublicationYear));
                 var user = new UserViewModel(loan.User.Name, loan.User.Email);
                 loanViewModel = new(loan.LoanDate, loan.DevolutionDate, user);
                 loanViewModel.Books.AddRange(booksViewModel);
