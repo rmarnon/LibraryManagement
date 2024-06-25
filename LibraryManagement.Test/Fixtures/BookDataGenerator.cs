@@ -26,5 +26,21 @@ namespace LibraryManagement.Test.Fixtures
                 PublicationYear = 1979
             };
         }
+
+        internal static UpdateBookCommand UpdateBookCommandFake()
+        {
+            return new()
+            {
+                Author = "Author",
+                Isbn = "Isbn",
+                Title = "title",
+                PublicationYear = 1979
+            };
+        }
+
+        internal static DeleteBookCommand DeleteBookCommandFake()
+        {
+            return new(Guid.NewGuid());
+        }
     }
 }

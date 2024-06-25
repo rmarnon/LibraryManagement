@@ -1,5 +1,6 @@
 ﻿using LibraryManagement.Application.Commands.Loans;
 using LibraryManagement.Application.ViewModels;
+using LibraryManagement.Core.Entities;
 
 namespace LibraryManagement.Test.Fixtures
 {
@@ -20,6 +21,31 @@ namespace LibraryManagement.Test.Fixtures
                 UserId = Guid.NewGuid(),
                 BookIds = [Guid.NewGuid()]
             };
+        }
+
+        internal static UpdateLoanCommand UpdateLoanCommandFake()
+        {
+            return new()
+            {
+                LoanDate = Data,
+                DevolutionDate = Data,
+                BookIds = [Guid.NewGuid()]
+            };
+        }
+
+        internal static ReturnLoanCommand ReturnLoanCommandFake()
+        {
+            return new()
+            {
+                DevolutionDate = Data,
+                UserId = Guid.NewGuid(),
+                BookIds = [Guid.NewGuid()]
+            };
+        }
+
+        internal static Loan GetLoanFake()
+        {
+            return new(DateTime.UtcNow, Guid.NewGuid());
         }
     }
 }

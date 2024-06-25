@@ -15,7 +15,7 @@ namespace LibraryManagement.Application.Commands.Loans
             var loan = await _loanRepository.GetLoanByUserIdAsync(request.UserId);
             var bookIds = loan?.BorrowedBooks?.Select(x => x.BookId).ToList();
 
-            if (bookIds != null && bookIds.TrueForAll(id => request.BookIds.Contains(id)))
+            if (bookIds?.Count > 0 && bookIds.TrueForAll(id => request.BookIds.Contains(id)))
             {
                 await _loanRepository.InactivateAsync(loan.Id);
                 return Result.Ok();
