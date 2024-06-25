@@ -13,7 +13,7 @@ namespace LibraryManagement.Application.Queries.Books
 
         public async Task<Result<List<BookViewModel>>> Handle(GetAllBooksQuery request, CancellationToken cancellationToken)
         {
-            var books = await _bookRepository.GetAllAsync();
+            var books = await _bookRepository.GetAllAsync(request.Pagination);
             if (books is null)
                 return Result.Fail<List<BookViewModel>>("Empty book list");
 

@@ -4,6 +4,7 @@ using LibraryManagement.API.Extensions;
 using LibraryManagement.API.Filters;
 using LibraryManagement.Application.Commands.Books;
 using LibraryManagement.Application.Validators;
+using LibraryManagement.Infrastructure.Extensions;
 using LibraryManagement.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -13,7 +14,8 @@ const string Context = "LibraryDb";
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddApiIoC();
+builder.Services.AddAuthIoc();
+builder.Services.AddRepositoryIoc();
 builder.Services.AddControllers(opt => opt.Filters.Add(typeof(ValidationFilter)));
 
 var connectionString = builder.Configuration.GetConnectionString(Context);
@@ -37,7 +39,10 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<LibraryDbContext>();
-        context.Database.Migrate();
+        var exist = context.Database.GetPendingMigrations().Any();
+
+        if (exist)
+            context.Database.Migrate();
     }
     catch (Exception ex)
     {

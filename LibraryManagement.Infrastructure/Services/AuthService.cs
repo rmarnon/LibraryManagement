@@ -33,9 +33,9 @@ namespace LibraryManagement.Infrastructure.Services
             var key = _configuration["AuthSettings:Key"];
             var issuer = _configuration["AuthSettings:Issuer"];
             var audience = _configuration["AuthSettings:Audience"];
-            var seconds = double.Parse(_configuration["AuthSettings:ExpirationSeconds"]);
+            var seconds = double.Parse(_configuration["AuthSettings:ExpirationSeconds"]!);
 
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key!));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new List<Claim>

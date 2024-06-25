@@ -30,12 +30,14 @@ namespace LibraryManagement.Infrastructure.Repositories
                 .SingleOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
         }
 
-        public async Task<List<Loan>> GetAllAsync()
+        public async Task<List<Loan>> GetAllAsync(PaginationInput pagination)
         {
             return await Query()
                 .Include(x => x.User)
                 .Include(x => x.BorrowedBooks).ThenInclude(y => y.Book)
                 .Where(x => !x.IsDeleted)
+                .Skip((pagination.PageNumber - 1) * pagination.PageSize)
+                .Take(pagination.PageSize)
                 .ToListAsync();
         }
     }

@@ -13,7 +13,7 @@ namespace LibraryManagement.Application.Queries.Users
 
         public async Task<Result<List<UserViewModel>>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
         {
-            var users = await _userRepository.GetAllAsync();
+            var users = await _userRepository.GetAllAsync(request.Pagination);
             if (users is null)
                 return Result.Fail<List<UserViewModel>>("Empty user list");
 

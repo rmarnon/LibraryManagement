@@ -28,9 +28,20 @@ namespace LibraryManagement.Infrastructure.Repositories
             return await Query().AnyAsync(x => x.Id == id && !x.IsDeleted);
         }
 
+        public async Task<List<T>> GetAllAsync(PaginationInput pagination)
+        {
+            return await Query()
+                .Where(x => !x.IsDeleted)
+                .Skip((pagination.PageNumber - 1) * pagination.PageSize)
+                .Take(pagination.PageSize)
+                .ToListAsync();
+        }
+
         public async Task<List<T>> GetAllAsync()
         {
-            return await Query().Where(x => !x.IsDeleted).ToListAsync();
+            return await Query()
+                .Where(x => !x.IsDeleted)
+                .ToListAsync();
         }
 
         public async Task<T> GetOneAsync(Guid id)

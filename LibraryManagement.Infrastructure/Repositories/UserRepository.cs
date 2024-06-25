@@ -18,10 +18,12 @@ namespace LibraryManagement.Infrastructure.Repositories
                 .AnyAsync(x => x.Email == email);
         }
 
-        public async Task<List<User>> GetAllAsync()
+        public async Task<List<User>> GetAllAsync(PaginationInput pagination)
         {
             return await Query()
                 .Include(x => x.Loans).ThenInclude(y => y.BorrowedBooks)
+                .Skip((pagination.PageNumber - 1) * pagination.PageSize)
+                .Take(pagination.PageSize)
                 .Where(x => !x.IsDeleted)
                 .ToListAsync();
         }

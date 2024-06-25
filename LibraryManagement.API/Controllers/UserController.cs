@@ -1,5 +1,6 @@
 ﻿using LibraryManagement.Application.Commands.Users;
 using LibraryManagement.Application.Queries.Users;
+using LibraryManagement.Core.Entities;
 using LibraryManagement.Core.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -22,6 +23,7 @@ namespace LibraryManagement.API.Controllers
         public async Task<IActionResult> Login([FromBody] LoginUserCommand command)
         {
             var result = await _mediator.Send(command);
+
             return result.IsSuccess
                 ? Ok(result.Value)
                 : BadRequest(result.Errors);
@@ -32,6 +34,7 @@ namespace LibraryManagement.API.Controllers
         public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand command)
         {
             var result = await _mediator.Send(command);
+
             return result.IsFailed
                 ? BadRequest(result.Errors)
                 : CreatedAtAction(nameof(CreateUser), result.Value);
@@ -42,6 +45,7 @@ namespace LibraryManagement.API.Controllers
         public async Task<IActionResult> UpdateUser([FromBody][Required] UpdateUserCommand command)
         {
             var result = await _mediator.Send(command);
+
             return result.IsSuccess
                 ? NoContent()
                 : BadRequest(result.Errors);
@@ -53,6 +57,7 @@ namespace LibraryManagement.API.Controllers
         {
             var query = new GetUserQuery(id);
             var result = await _mediator.Send(query);
+
             return result.IsSuccess
                 ? Ok(result.Value)
                 : NotFound(result.Errors);
@@ -60,10 +65,11 @@ namespace LibraryManagement.API.Controllers
 
         [HttpGet]
         [Authorize(Roles = nameof(Role.Admin))]
-        public async Task<IActionResult> GetAllUsers([FromQuery] string? query)
+        public async Task<IActionResult> GetAllUsers([FromQuery] string? query, [FromQuery] PaginationInput pagination)
         {
-            var usersQuery = new GetAllUsersQuery(query);
+            var usersQuery = new GetAllUsersQuery(query, pagination);
             var result = await _mediator.Send(usersQuery);
+
             return result.IsSuccess
                 ? Ok(result.Value)
                 : NotFound(result.Errors);
@@ -75,6 +81,7 @@ namespace LibraryManagement.API.Controllers
         {
             var command = new DeleteUserCommand(id);
             var result = await _mediator.Send(command);
+
             return result.IsSuccess
                 ? NoContent()
                 : NotFound(result.Errors);

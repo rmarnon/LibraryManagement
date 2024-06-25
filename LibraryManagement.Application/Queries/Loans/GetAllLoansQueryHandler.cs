@@ -13,7 +13,7 @@ namespace LibraryManagement.Application.Queries.Loans
 
         public async Task<Result<List<LoanViewModel>>> Handle(GetAllLoansQuery request, CancellationToken cancellationToken)
         {
-            var loans = await _loanRepository.GetAllAsync();
+            var loans = await _loanRepository.GetAllAsync(request.Pagination);
 
             if (loans is null) 
                 return Result.Fail<List<LoanViewModel>>("Empty loan list");

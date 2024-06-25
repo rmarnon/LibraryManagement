@@ -1,5 +1,6 @@
 ﻿using LibraryManagement.Application.Commands.Loans;
 using LibraryManagement.Application.Queries.Loans;
+using LibraryManagement.Core.Entities;
 using LibraryManagement.Core.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -22,6 +23,7 @@ namespace LibraryManagement.API.Controllers
         public async Task<IActionResult> CreateLoan([FromBody] CreateLoanCommand command)
         {
             var result = await _mediator.Send(command);
+
             return result.IsFailed
                 ? BadRequest(result.Errors)
                 : CreatedAtAction(nameof(CreateLoan), result.Value);
@@ -32,6 +34,7 @@ namespace LibraryManagement.API.Controllers
         public async Task<IActionResult> ReturnLoan([FromBody] ReturnLoanCommand command)
         {
             var result = await _mediator.Send(command);
+
             return result.IsSuccess
                 ? NoContent()
                 : BadRequest(result.Errors);
@@ -42,6 +45,7 @@ namespace LibraryManagement.API.Controllers
         public async Task<IActionResult> UpdateLoan([FromBody][Required] UpdateLoanCommand command)
         {
             var result = await _mediator.Send(command);
+
             return result.IsSuccess
                 ? NoContent()
                 : BadRequest(result.Errors);
@@ -53,6 +57,7 @@ namespace LibraryManagement.API.Controllers
         {
             var query = new GetLoanQuery(id);
             var result = await _mediator.Send(query);
+
             return result.IsSuccess
                 ? Ok(result.Value)
                 : NotFound(result.Errors);
@@ -60,10 +65,11 @@ namespace LibraryManagement.API.Controllers
 
         [HttpGet]
         [Authorize(Roles = $"{nameof(Role.Admin)},{nameof(Role.User)}")]
-        public async Task<IActionResult> GetAllLoans([FromQuery] string? query)
+        public async Task<IActionResult> GetAllLoans([FromQuery] string? query, [FromQuery] PaginationInput pagination)
         {
-            var loanQuery = new GetAllLoansQuery(query);
+            var loanQuery = new GetAllLoansQuery(query, pagination);
             var result = await _mediator.Send(loanQuery);
+
             return result.IsSuccess
                 ? Ok(result.Value)
                 : NotFound(result.Errors);

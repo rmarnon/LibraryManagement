@@ -1,5 +1,6 @@
 ﻿using LibraryManagement.Application.Commands.Books;
 using LibraryManagement.Application.Queries.Books;
+using LibraryManagement.Core.Entities;
 using LibraryManagement.Core.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -22,6 +23,7 @@ namespace LibraryManagement.API.Controllers
         public async Task<IActionResult> CreateBook([FromBody] CreateBookCommand command)
         {
             var result = await _mediator.Send(command);
+
             return result.IsFailed
                 ? BadRequest(result.Errors)
                 : CreatedAtAction(nameof(CreateBook), result.Value);
@@ -32,6 +34,7 @@ namespace LibraryManagement.API.Controllers
         public async Task<IActionResult> UpdateBook([FromBody] UpdateBookCommand command)
         {
             var result = await _mediator.Send(command);
+
             return result.IsSuccess
                 ? NoContent()
                 : BadRequest(result.Errors);
@@ -39,10 +42,11 @@ namespace LibraryManagement.API.Controllers
 
         [HttpGet]
         [Authorize(Roles = $"{nameof(Role.Admin)},{nameof(Role.User)}")]
-        public async Task<IActionResult> GetAllBooks([FromQuery] string? query)
+        public async Task<IActionResult> GetAllBooks([FromQuery] string? query, [FromQuery] PaginationInput pagination)
         {
-            var booksQuery = new GetAllBooksQuery(query);
+            var booksQuery = new GetAllBooksQuery(query, pagination);
             var result = await _mediator.Send(booksQuery);
+
             return result.IsSuccess
                 ? Ok(result.Value)
                 : NotFound(result.Errors);
@@ -54,6 +58,7 @@ namespace LibraryManagement.API.Controllers
         {
             var query = new GetBookQuery(id);
             var result = await _mediator.Send(query);
+
             return result.IsSuccess
                 ? Ok(result.Value)
                 : NotFound(result.Errors);
@@ -65,6 +70,7 @@ namespace LibraryManagement.API.Controllers
         {
             var command = new DeleteBookCommand(id);
             var result = await _mediator.Send(command);
+
             return result.IsSuccess
                 ? NoContent()
                 : NotFound(result.Errors);

@@ -9,13 +9,13 @@ namespace LibraryManagement.API.Extensions
     {
         public static IServiceCollection AddSwaggerService(this IServiceCollection services, ConfigurationManager configuration)
         {
-            const string title = "Library - Management";
-            const string version = "1.0.0";
-            const string description = "Library management service";
+            const string Title = "Library - Management";
+            const string Version = "1.0";
+            const string Description = "Library management service";
 
             services.AddSwaggerGen(s =>
             {
-                s.SwaggerDoc("v1", new() { Title = title, Version = version, Description = description });
+                s.SwaggerDoc("v1", new() { Title = Title, Version = Version, Description = Description });
 
                 s.AddSecurityDefinition("Bearer", new()
                 {
@@ -27,7 +27,7 @@ namespace LibraryManagement.API.Extensions
                     Description = "JWT Authorization header using Bearer scheme."
                 });
 
-                s.AddSecurityRequirement(new()
+                s.AddSecurityRequirement(new OpenApiSecurityRequirement()
                 {
                     {
                         new OpenApiSecurityScheme
@@ -55,9 +55,8 @@ namespace LibraryManagement.API.Extensions
 
                         ValidIssuer = configuration["AuthSettings:Issuer"],
                         ValidAudience = configuration["AuthSettings:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["AuthSettings:Key"]))
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["AuthSettings:Key"]!))
                     };
-
                 });
 
             return services;
