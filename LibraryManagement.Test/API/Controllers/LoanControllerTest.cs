@@ -87,7 +87,7 @@ namespace LibraryManagement.Test.API.Controllers
         public async Task Should_Return_Loan_By_Id()
         {
             // Arrange
-            var Loan = DataGenerator.GetLoanViewModel();
+            var Loan = LoanDataGenerator.GetLoanViewModel();
             _mediatorMock.Setup(m => m.Send(It.IsAny<GetLoanQuery>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Result.Ok(Loan));
 
@@ -105,7 +105,7 @@ namespace LibraryManagement.Test.API.Controllers
         public async Task Should_Return_All_Loans()
         {
             // Arrange
-            var Loans = new List<LoanViewModel> { DataGenerator.GetLoanViewModel() };
+            var Loans = new List<LoanViewModel> { LoanDataGenerator.GetLoanViewModel() };
             _mediatorMock.Setup(m => m.Send(It.IsAny<GetAllLoansQuery>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Result.Ok(Loans));
 

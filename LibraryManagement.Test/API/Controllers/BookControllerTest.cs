@@ -87,7 +87,7 @@ namespace LibraryManagement.Test.API.Controllers
         public async Task Should_Return_Book_By_Id()
         {
             // Arrange
-            var Book = DataGenerator.GetBookViewModel();
+            var Book = BookDataGenerator.GetBookViewModel();
             _mediatorMock.Setup(m => m.Send(It.IsAny<GetBookQuery>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Result.Ok(Book));
 
@@ -105,7 +105,7 @@ namespace LibraryManagement.Test.API.Controllers
         public async Task Should_Return_All_Books()
         {
             // Arrange
-            var Books = new List<BookViewModel> { DataGenerator.GetBookViewModel() };
+            var Books = new List<BookViewModel> { BookDataGenerator.GetBookViewModel() };
             _mediatorMock.Setup(m => m.Send(It.IsAny<GetAllBooksQuery>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Result.Ok(Books));
 

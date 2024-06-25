@@ -14,7 +14,7 @@ namespace LibraryManagement.Test.Application.Commands.Books
         public async Task Should_Create_Book_with_Success()
         {
             // Arrange
-            var command = DataGenerator.CreateBookCommandFake();
+            var command = BookDataGenerator.CreateBookCommandFake();
 
             var handler = new CreateBookCommandHandler(_BookepositoryMock.Object);
 

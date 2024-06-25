@@ -17,8 +17,8 @@ namespace LibraryManagement.Test.Application.Commands.Loans
         public async Task Should_Create_Loan_with_Success()
         {
             // Arrange
-            var command = DataGenerator.CreateLoanCommandFake();
-            var books = new List<Book> { DataGenerator.GetBookFake() };
+            var command = LoanDataGenerator.CreateLoanCommandFake();
+            var books = new List<Book> { BookDataGenerator.GetBookFake() };
             command.BookIds = books.Select(x => x.Id).ToList();
 
             _loanRepositoryMock.Setup(x => x.ExistsLoanByUserIdAsync(It.IsAny<Guid>()))
@@ -45,7 +45,7 @@ namespace LibraryManagement.Test.Application.Commands.Loans
         public async Task Should_Fail_To_Create_Loan_with_Loan_Exist()
         {
             // Arrange
-            var command = DataGenerator.CreateLoanCommandFake();
+            var command = LoanDataGenerator.CreateLoanCommandFake();
 
             _loanRepositoryMock.Setup(x => x.ExistsLoanByUserIdAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(true);

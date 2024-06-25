@@ -87,7 +87,7 @@ namespace LibraryManagement.Test.API.Controllers
         public async Task Should_Return_User_By_Id()
         {
             // Arrange
-            var user = DataGenerator.GetUserViewModel();
+            var user = UserDataGenerator.GetUserViewModel();
             _mediatorMock.Setup(m => m.Send(It.IsAny<GetUserQuery>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Result.Ok(user));
 
@@ -105,7 +105,7 @@ namespace LibraryManagement.Test.API.Controllers
         public async Task Should_Return_All_Users()
         {
             // Arrange
-            var users = new List<UserViewModel> { DataGenerator.GetUserViewModel() };
+            var users = new List<UserViewModel> { UserDataGenerator.GetUserViewModel() };
             _mediatorMock.Setup(m => m.Send(It.IsAny<GetAllUsersQuery>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Result.Ok(users));
 
@@ -123,7 +123,7 @@ namespace LibraryManagement.Test.API.Controllers
         public async Task Should_Login_With_Valid_User()
         {
             // Arrange
-            var loginUser = DataGenerator.GetLoginUserViewModel();
+            var loginUser = UserDataGenerator.GetLoginUserViewModel();
             _mediatorMock.Setup(m => m.Send(It.IsAny<LoginUserCommand>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Result.Ok(loginUser));
 
