@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagement.Core", "L
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagement.Infrastructure", "LibraryManagement.Infrastructure\LibraryManagement.Infrastructure.csproj", "{80012535-71B3-4DC8-9951-E445E4DEEA94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManagement.Application", "LibraryManagement.Application\LibraryManagement.Application.csproj", "{24698B40-AEE3-46EA-9463-C5286321877C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagement.Application", "LibraryManagement.Application\LibraryManagement.Application.csproj", "{24698B40-AEE3-46EA-9463-C5286321877C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManagement.Test", "LibraryManagement.Test\LibraryManagement.Test.csproj", "{0BBF3F7B-36FC-4464-B00B-187D94FAD5C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{24698B40-AEE3-46EA-9463-C5286321877C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24698B40-AEE3-46EA-9463-C5286321877C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24698B40-AEE3-46EA-9463-C5286321877C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BBF3F7B-36FC-4464-B00B-187D94FAD5C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BBF3F7B-36FC-4464-B00B-187D94FAD5C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BBF3F7B-36FC-4464-B00B-187D94FAD5C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BBF3F7B-36FC-4464-B00B-187D94FAD5C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
