@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Diagnostics.CodeAnalysis;
 
 namespace LibraryManagement.API.Filters
 {
+    [ExcludeFromCodeCoverage]
     public class ValidationFilter : IActionFilter
     {
         public void OnActionExecuted(ActionExecutedContext context)

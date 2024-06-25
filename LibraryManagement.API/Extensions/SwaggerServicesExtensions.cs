@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace LibraryManagement.API.Extensions
 {
+    [ExcludeFromCodeCoverage]
     public static class SwaggerServicesExtensions
     {
         public static IServiceCollection AddSwaggerService(this IServiceCollection services, ConfigurationManager configuration)
