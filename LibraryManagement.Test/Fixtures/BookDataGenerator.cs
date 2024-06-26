@@ -1,4 +1,6 @@
 ﻿using LibraryManagement.Application.Commands.Books;
+using LibraryManagement.Application.Queries.Books;
+using LibraryManagement.Application.Queries.Users;
 using LibraryManagement.Application.ViewModels;
 using LibraryManagement.Core.Entities;
 
@@ -41,6 +43,11 @@ namespace LibraryManagement.Test.Fixtures
         internal static DeleteBookCommand DeleteBookCommandFake()
         {
             return new(Guid.NewGuid());
+        }
+
+        internal static GetAllBooksQuery GetAllBooksQueryFake()
+        {
+            return new("query", new());
         }
     }
 }

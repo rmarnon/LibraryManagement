@@ -5,8 +5,12 @@
         public DateTime LoanDate { get; private set; }
         public DateTime? DevolutionDate { get; private set; }
         public Guid UserId { get; private set; }
-        public User User { get; private set; }
+        public User User { get; set; }
         public virtual List<LoanBook> BorrowedBooks { get; private set; } = [];
+
+        public Loan()
+        {            
+        }
 
         public Loan(DateTime loanDate, Guid userId)
         {

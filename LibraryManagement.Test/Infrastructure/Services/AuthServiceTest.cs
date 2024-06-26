@@ -21,8 +21,8 @@ namespace LibraryManagement.Test.Infrastructure.Services
         };
 
         private readonly IConfiguration _configuration = new ConfigurationBuilder()
-                .AddInMemoryCollection(_inMemorySettings!)
-                .Build();
+            .AddInMemoryCollection(_inMemorySettings!)
+            .Build();
 
         [Fact]
         public void Should_Generate_Sha256_Hash()

@@ -1,4 +1,5 @@
 ﻿using LibraryManagement.Application.Commands.Users;
+using LibraryManagement.Application.Queries.Users;
 using LibraryManagement.Application.ViewModels;
 using LibraryManagement.Core.Entities;
 using LibraryManagement.Core.Enums;
@@ -24,7 +25,7 @@ namespace LibraryManagement.Test.Fixtures
                 Name = "Name",
                 Email = "Email",
                 Password = "P@ssword0123",
-                Role = Core.Enums.Role.User
+                Role = Role.User
             };
         }
 
@@ -35,7 +36,7 @@ namespace LibraryManagement.Test.Fixtures
                 Name = "Name",
                 Email = "Email",
                 Password = "P@ssword0123",
-                Role = Core.Enums.Role.User
+                Role = Role.User
             };
         }
 
@@ -52,6 +53,11 @@ namespace LibraryManagement.Test.Fixtures
         internal static LoginUserCommand LoginUserCommandFake()
         {
             return new() { Email = "Email", Password = "P@assword0123" };
+        }
+
+        internal static GetAllUsersQuery GetAllUsersQueryFake()
+        {
+            return new("query", new());
         }
     }
 }
