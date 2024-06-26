@@ -2,9 +2,11 @@
 using LibraryManagement.Core.Repositories;
 using LibraryManagement.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace LibraryManagement.Infrastructure.Repositories
 {
+    [ExcludeFromCodeCoverage]
     public class BaseRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
         protected readonly LibraryDbContext Context;

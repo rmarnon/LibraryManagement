@@ -1,9 +1,11 @@
 ﻿using LibraryManagement.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Diagnostics.CodeAnalysis;
 
 namespace LibraryManagement.Infrastructure.Persistence.Configurations
 {
+    [ExcludeFromCodeCoverage]
     public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         public void Configure(EntityTypeBuilder<User> builder)

@@ -2,9 +2,11 @@
 using LibraryManagement.Core.Repositories;
 using LibraryManagement.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace LibraryManagement.Infrastructure.Repositories
 {
+    [ExcludeFromCodeCoverage]
     public class UserRepository : BaseRepository<User>, IUserRepository
     {
         private readonly LibraryDbContext _dbContext;

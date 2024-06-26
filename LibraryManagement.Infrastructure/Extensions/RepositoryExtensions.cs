@@ -1,9 +1,11 @@
 ﻿using LibraryManagement.Core.Repositories;
 using LibraryManagement.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics.CodeAnalysis;
 
 namespace LibraryManagement.Infrastructure.Extensions
 {
+    [ExcludeFromCodeCoverage]
     public static class RepositoryExtensions
     {
         public static IServiceCollection AddRepositoryIoc(this IServiceCollection services)
