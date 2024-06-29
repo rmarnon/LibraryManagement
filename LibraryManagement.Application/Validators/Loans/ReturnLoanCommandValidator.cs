@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using LibraryManagement.Application.Commands.Loans;
 
-namespace LibraryManagement.Application.Validators
+namespace LibraryManagement.Application.Validators.Loans
 {
     public class ReturnLoanCommandValidator : AbstractValidator<ReturnLoanCommand>
     {

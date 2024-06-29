@@ -1,6 +1,5 @@
 ﻿using LibraryManagement.Application.Commands.Loans;
 using LibraryManagement.Application.Queries.Loans;
-using LibraryManagement.Application.Queries.Users;
 using LibraryManagement.Application.ViewModels;
 using LibraryManagement.Core.Entities;
 
@@ -53,6 +52,11 @@ namespace LibraryManagement.Test.Fixtures
         internal static GetAllLoansQuery GetAllLoansQueryFake()
         {
             return new("query", new());
+        }
+
+        internal static GetLoanQuery GetLoanQueryFake()
+        {
+            return new(Guid.NewGuid());
         }
     }
 }

@@ -23,7 +23,7 @@ namespace LibraryManagement.Test.Fixtures
             return new()
             {
                 Name = "Name",
-                Email = "Email",
+                Email = "email@gmail.com",
                 Password = "P@ssword0123",
                 Role = Role.User
             };
@@ -34,7 +34,7 @@ namespace LibraryManagement.Test.Fixtures
             return new()
             {
                 Name = "Name",
-                Email = "Email",
+                Email = "email@yahoo.com.br",
                 Password = "P@ssword0123",
                 Role = Role.User
             };
@@ -52,12 +52,17 @@ namespace LibraryManagement.Test.Fixtures
 
         internal static LoginUserCommand LoginUserCommandFake()
         {
-            return new() { Email = "Email", Password = "P@assword0123" };
+            return new() { Email = "email@hotmail.com", Password = "P@assword0123" };
         }
 
         internal static GetAllUsersQuery GetAllUsersQueryFake()
         {
             return new("query", new());
+        }
+
+        internal static GetUserQuery GetUserQueryFake()
+        {
+            return new(Guid.NewGuid());
         }
     }
 }

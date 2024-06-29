@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using LibraryManagement.Application.Commands.Books;
 
-namespace LibraryManagement.Application.Validators
+namespace LibraryManagement.Application.Validators.Books
 {
     public class UpdateBookCommandValidator : AbstractValidator<UpdateBookCommand>
     {

@@ -3,7 +3,7 @@ using FluentValidation.AspNetCore;
 using LibraryManagement.API.Extensions;
 using LibraryManagement.API.Filters;
 using LibraryManagement.Application.Commands.Books;
-using LibraryManagement.Application.Validators;
+using LibraryManagement.Application.Validators.Users;
 using LibraryManagement.Infrastructure.Extensions;
 using LibraryManagement.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;

@@ -49,5 +49,10 @@ namespace LibraryManagement.Test.Fixtures
         {
             return new("query", new());
         }
+
+        internal static GetBookQuery GetBookQueryFake()
+        {
+            return new(Guid.NewGuid());
+        }
     }
 }
