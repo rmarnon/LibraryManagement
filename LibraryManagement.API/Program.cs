@@ -8,6 +8,7 @@ using LibraryManagement.Infrastructure.Extensions;
 using LibraryManagement.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using System.Diagnostics.CodeAnalysis;
 
 const string Context = "LibraryDb";
 
@@ -69,3 +70,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+[ExcludeFromCodeCoverage]
+public partial class Program { }

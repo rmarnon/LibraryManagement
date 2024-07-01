@@ -50,7 +50,7 @@ namespace LibraryManagement.Application.Validators.Books
 
             RuleFor(x => x.Isbn)
                 .Length(10)
-                .When(y => y.PublicationYear < 2007)
+                .When(y => y.PublicationYear >= 0)
                 .WithMessage("Until 2007, the ISBN code must have 10 digits");
         }
 

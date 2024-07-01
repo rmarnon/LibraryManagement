@@ -15,7 +15,7 @@ namespace LibraryManagement.Application.Validators.Loans
         private void ValidateUser()
         {
             RuleFor(x => x.UserId)
-                .NotEmpty()
+                .Must(x => x != Guid.Empty)
                 .WithMessage("User is required!");
         }
 
@@ -29,11 +29,7 @@ namespace LibraryManagement.Application.Validators.Loans
         private void ValidateDevolutionDate()
         {
             RuleFor(x => x.DevolutionDate)
-                .NotEmpty()
-                .WithMessage("Devolution date is required!");
-
-            RuleFor(x => x.DevolutionDate)
-                .LessThanOrEqualTo(DateTime.UtcNow)
+                .LessThanOrEqualTo(DateTime.Today)
                 .WithMessage("Devolution date should not be a future date");
         }
     }

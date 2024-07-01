@@ -26,10 +26,6 @@ namespace LibraryManagement.Application.Validators.Loans
         private void ValidateLoanDate()
         {
             RuleFor(x => x.LoanDate)
-                .NotEmpty()
-                .WithMessage("loan date is required!");
-
-            RuleFor(x => x.LoanDate)
                 .LessThanOrEqualTo(DateTime.UtcNow)
                 .WithMessage("Loan date should not be a future date");
         }
@@ -37,7 +33,7 @@ namespace LibraryManagement.Application.Validators.Loans
         private void ValidateUser()
         {
             RuleFor(x => x.UserId)
-                .NotEmpty()
+                .Must(x => x != Guid.Empty)
                 .WithMessage("User is required!");
         }
     }

@@ -36,9 +36,9 @@ namespace LibraryManagement.Application.Validators.Users
                 .WithMessage("Invalid email adress");
 
             RuleFor(x => x.Email)
-                .Length(3, 50)
+                .Length(6, 50)
                 .When(x => !string.IsNullOrWhiteSpace(x.Email))
-                .WithMessage("Email must be between 3 and 50 characters");
+                .WithMessage("Email must be between 6 and 50 characters");
         }
 
         private void ValidatePassword()
