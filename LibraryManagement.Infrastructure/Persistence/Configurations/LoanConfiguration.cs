@@ -21,7 +21,8 @@ namespace LibraryManagement.Infrastructure.Persistence.Configurations
                 .HasDefaultValueSql("GETDATE()")
                 .IsRequired();
 
-            builder.Property(x => x.DevolutionDate);
+            builder.Property(x => x.DevolutionDate)
+                .HasDefaultValueSql("DATEADD(DAY, 7, GETDATE())");
 
             builder.HasOne(x => x.User)
                 .WithMany(y => y.Loans)

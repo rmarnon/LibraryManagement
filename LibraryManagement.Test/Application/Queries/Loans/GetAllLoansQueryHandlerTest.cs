@@ -41,7 +41,9 @@ namespace LibraryManagement.Test.Application.Queries.Loans
 
             // Assert
             result.IsSuccess.Should().BeTrue();
-            result.Value.Should().HaveCount(1).And.Contain(x => x.TotalLoanBooks == 2);
+            result.Value.Should().HaveCount(1)
+                .And.Contain(x => x.TotalLoanBooks == 2)
+                .And.Contain(y => y.Situation.Equals("Books up to date"));
         }
 
         [Fact]
