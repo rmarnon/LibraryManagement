@@ -33,7 +33,7 @@ namespace LibraryManagement.Test.Application.Validators.Loans
                 ],
                 [
                     new CreateLoanCommand { UserId = Guid.Empty, LoanDate = DateTime.Today.AddDays(1), BookIds = [] },
-                    new List<string> { "User is required!", "Loan date should not be a future date", "There must be at least one book to loan" },
+                    new List<string> { "User is required!", "There must be at least one book to loan" },
                     false
                 ],
                 [

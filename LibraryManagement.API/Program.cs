@@ -7,10 +7,12 @@ using LibraryManagement.Application.Validators.Users;
 using LibraryManagement.Infrastructure.Extensions;
 using LibraryManagement.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
+using Serilog.Sinks.MSSqlServer;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Diagnostics.CodeAnalysis;
 
-const string Context = "LibraryDb";
+const string Context = "ConnectionStrings:LibraryDb";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,8 +21,23 @@ builder.Services.AddAuthIoc();
 builder.Services.AddRepositoryIoc();
 builder.Services.AddControllers(opt => opt.Filters.Add(typeof(ValidationFilter)));
 
-var connectionString = builder.Configuration.GetConnectionString(Context);
+var connectionString = builder.Configuration.GetValue<string>(Context);
 builder.Services.AddDbContext<LibraryDbContext>(s => s.UseSqlServer(connectionString));
+
+var logger = new LoggerConfiguration()
+    .Enrich.FromLogContext()
+    .WriteTo.MSSqlServer(
+        connectionString,
+        sinkOptions: new MSSqlServerSinkOptions()
+        {
+            AutoCreateSqlTable = true,
+            TableName = "Logs",
+        })
+    .WriteTo.Console()
+    .CreateLogger();
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
 
 builder.Services.AddValidatorsFromAssemblyContaining<CreateUserCommandValidator>()
     .AddFluentValidationAutoValidation()
