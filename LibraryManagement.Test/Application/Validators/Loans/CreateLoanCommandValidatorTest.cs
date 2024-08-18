@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using LibraryManagement.Application.Commands.Loans;
 using LibraryManagement.Application.Validators.Loans;
+using LibraryManagement.Core.Entities;
 
 namespace LibraryManagement.Test.Application.Validators.Loans
 {
@@ -33,7 +34,7 @@ namespace LibraryManagement.Test.Application.Validators.Loans
                 ],
                 [
                     new CreateLoanCommand { UserId = Guid.Empty, LoanDate = DateTime.Today.AddDays(1), BookIds = [] },
-                    new List<string> { "User is required!", "There must be at least one book to loan" },
+                    new List<string> { "User is required!", "There must be at least one book to loan", "Loan date should not be a future date"},
                     false
                 ],
                 [

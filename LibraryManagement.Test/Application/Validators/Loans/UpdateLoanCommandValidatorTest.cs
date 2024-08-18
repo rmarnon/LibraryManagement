@@ -33,7 +33,7 @@ namespace LibraryManagement.Test.Application.Validators.Loans
                 ],
                 [
                     new UpdateLoanCommand { Id = Guid.Empty, LoanDate = DateTime.UtcNow.AddDays(-1), DevolutionDate = DateTime.UtcNow.AddDays(-5), BookIds = [] },
-                    new List<string> { "Loan is required!", "Devolution date should be after loan date", "There must be at least one book to loan" },
+                    new List<string> { "There must be at least one book to loan", "Loan is required!", "Loan date should not be a future date", "Devolution date should be after loan date" },
                     false
                 ],
                 [
