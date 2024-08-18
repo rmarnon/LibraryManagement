@@ -17,7 +17,22 @@ namespace LibraryManagement.API.Extensions
 
             services.AddSwaggerGen(s =>
             {
-                s.SwaggerDoc("v1", new() { Title = Title, Version = Version, Description = Description });
+                s.SwaggerDoc("v1", new() 
+                { 
+                    Title = Title, 
+                    Version = Version, 
+                    Description = Description,
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Rodrigo Marnon",
+                        Email = "rmarnon@yahoo.com.br",
+                        Url = new Uri("https://www.linkedin.com/in/rodrigo-marnon/")
+                    }
+                });
+
+                var xmlFile = "LibraryManagement.API.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                s.IncludeXmlComments(xmlPath);
 
                 s.AddSecurityDefinition("Bearer", new()
                 {
@@ -29,7 +44,7 @@ namespace LibraryManagement.API.Extensions
                     Description = "JWT Authorization header using Bearer scheme."
                 });
 
-                s.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                s.AddSecurityRequirement(new OpenApiSecurityRequirement() 
                 {
                     {
                         new OpenApiSecurityScheme

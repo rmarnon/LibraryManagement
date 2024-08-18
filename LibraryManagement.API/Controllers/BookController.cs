@@ -25,7 +25,16 @@ namespace LibraryManagement.API.Controllers
         /// <summary>
         /// Register a new book in the system.
         /// </summary>
+        /// <remarks>Request:
+        /// {
+        ///      "title": "Some title",
+        ///      "author": "Some author",
+        ///      "isbn": "1234567890",
+        ///      "publicationYear": 2000
+        /// }
+        /// </remarks>
         /// <param name="command">Book to register.</param>
+        /// <returns>Book created</returns>
         /// <response code="201">Registered successfully.</response>
         /// <response code="400">Invalid data.</response>
         /// <response code="500">Server error.</response>
